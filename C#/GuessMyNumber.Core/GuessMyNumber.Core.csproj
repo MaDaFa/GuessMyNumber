@@ -47,7 +47,6 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Game\Setup\GuessMyNumberInviteDecorator.cs" />
     <Compile Include="Game\Setup\GuessMyNumberDefinition.cs" />
-    <Compile Include="Game\Setup\GuessMyNumberInformationNotificationFactory.cs" />
     <Compile Include="Game\Setup\GuessMyNumberMoveFactory.cs" />
     <Compile Include="Game\GuessMyNumberMoveResultNotificationObject.cs" />
     <Compile Include="Game\GuessMyNumberPlayer.cs" />

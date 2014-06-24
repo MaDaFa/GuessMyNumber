@@ -35,11 +35,6 @@ namespace GuessMyNumber.Core.Game.Setup
             return new GuessMyNumberInviteDecorator();
         }
 
-        public override IGameInformationNotificationFactory<INumber, IAttemptResult> GetGameInformationNotificationFactory()
-        {
-            return new GuessMyNumberInformationNotificationFactory();
-        }
-
         public override IPlayerHistoryItemFactory<INumber, IAttemptResult> GetPlayerHistoryItemfactory()
         {
             return new GuessMyNumberPlayerHistoryItemFactory();
