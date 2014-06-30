@@ -1,4 +1,5 @@
-﻿using Gamify.Sdk;
+﻿using Facebook;
+using Gamify.Sdk;
 using Gamify.Sdk.Contracts.Notifications;
 using Gamify.Sdk.Contracts.Requests;
 using Gamify.Sdk.Services;
@@ -7,6 +8,7 @@ using GuessMyNumber.Core.Game.Setup;
 using Microsoft.Web.WebSockets;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace GuessMyNumber.WebServer
@@ -46,21 +48,28 @@ namespace GuessMyNumber.WebServer
 
             if (gameRequest.Type != (int)GameRequestType.PlayerConnect && string.IsNullOrEmpty(this.UserName))
             {
-                throw new ApplicationException("A connection error occurred. The players must be connected in order to perform other type of requests");
+                this.SendError("A connection error occurred. The players must be connected in order to perform other type of requests");
             }
 
             if (gameRequest.Type == (int)GameRequestType.PlayerConnect && !string.IsNullOrEmpty(this.UserName))
             {
-                throw new ApplicationException("A connection error occurred when trying to connect a player already connected");
+                this.SendError("A connection error occurred when trying to connect a player already connected");
             }
 
             if (gameRequest.Type == (int)GameRequestType.PlayerConnect)
             {
                 var playerConnectRequest = this.serializer.Deserialize<PlayerConnectRequestObject>(gameRequest.SerializedRequestObject);
 
-                this.UserName = playerConnectRequest.PlayerName;
+                if (this.AuthenticateUser(playerConnectRequest))
+                {
+                    this.UserName = playerConnectRequest.PlayerName;
 
-                this.gameService.Connect(playerConnectRequest.PlayerName, playerConnectRequest.AccessToken);
+                    this.gameService.Connect(playerConnectRequest.PlayerName);
+                }
+                else
+                {
+                    this.SendError("An error occured while trying to authenticate user {0}. Please check the format of the connect request", playerConnectRequest.PlayerName);
+                }
             }
             else
             {
@@ -88,6 +97,37 @@ namespace GuessMyNumber.WebServer
             };
         }
 
+        private bool AuthenticateUser(PlayerConnectRequestObject playerConnectRequest)
+        {
+            var isAuthenticated = false;
+            var authenticationType = default(GameAuthenticationType);
+
+            if (Enum.TryParse(playerConnectRequest.AuthenticationType.ToString(), out authenticationType))
+            {
+                switch (authenticationType)
+                {
+                    case GameAuthenticationType.Facebook:
+                        var appId = ConfigurationManager.AppSettings["guessMyNumberAppId"];
+                        var appSecret = ConfigurationManager.AppSettings["guessMyNumberAppSecret"];
+                        var facebookClient = new FacebookClient
+                        {
+                            AppId = appId,
+                            AppSecret = appSecret,
+                            AccessToken = playerConnectRequest.AccessToken
+                        };
+                        var connectedUser = facebookClient.Get("me");
+
+                        isAuthenticated = connectedUser != null;
+                        break;
+                    case GameAuthenticationType.None:
+                        isAuthenticated = true;
+                        break;
+                }
+            }
+
+            return isAuthenticated;
+        }
+
         private void PushMessage(string receiver, GameNotification notification)
         {
             var serializedNotification = this.serializer.Serialize(notification);
@@ -99,6 +139,29 @@ namespace GuessMyNumber.WebServer
             {
                 client.Send(serializedNotification);
             }
+        }
+
+        private void SendError(string errorMessage, params object[] parameters)
+        {
+            this.SendError(0, errorMessage, parameters);
+        }
+
+        private void SendError(int errorCode, string errorMessage, params object[] parameters)
+        {
+            var errorNotificationObject = new ErrorNotificationObject
+            {
+                ErrorCode = errorCode,
+                Message = string.Format(errorMessage, parameters)
+            };
+            var errorNotification = new GameNotification
+            {
+                Type = (int)GameNotificationType.Error,
+                SerializedNotificationObject = this.serializer.Serialize(errorNotificationObject)
+
+            };
+            var serializedErrorNotification = this.serializer.Serialize(errorNotification);
+
+            this.Send(serializedErrorNotification);
         }
     }
 }
