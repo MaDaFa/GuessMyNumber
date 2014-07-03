@@ -49,11 +49,17 @@
       <HintPath>..\packages\Facebook.6.6.0\lib\net45\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Gamify.Sdk">
-      <HintPath>..\Lib\Gamify.Sdk.dll</HintPath>
+      <HintPath>..\packages\Gamify.Sdk.1.0.0.0\lib\net451\Gamify.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.WebSockets">
       <HintPath>..\packages\Microsoft.WebSockets.0.2.3\lib\net45\Microsoft.WebSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
