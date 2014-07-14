@@ -5,7 +5,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.Core", "Guess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.Core.Tests", "GuessMyNumber.Core.Tests\GuessMyNumber.Core.Tests.csproj", "{C7383340-5AE9-4257-A2EB-87B650D96E42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.WebServer", "GuessMyNumber.WebServer\GuessMyNumber.WebServer.csproj", "{938DCEB3-610C-493C-B535-1D794756D34B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{124C1649-F7AE-4C67-9780-FEF533E638B9}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.Web", "GuessMyNumber.Web\GuessMyNumber.Web.csproj", "{04B91694-8DD2-46BD-AADC-F77290014546}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +26,10 @@ Global
 		{C7383340-5AE9-4257-A2EB-87B650D96E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7383340-5AE9-4257-A2EB-87B650D96E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7383340-5AE9-4257-A2EB-87B650D96E42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{938DCEB3-610C-493C-B535-1D794756D34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{938DCEB3-610C-493C-B535-1D794756D34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{938DCEB3-610C-493C-B535-1D794756D34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{938DCEB3-610C-493C-B535-1D794756D34B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04B91694-8DD2-46BD-AADC-F77290014546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04B91694-8DD2-46BD-AADC-F77290014546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04B91694-8DD2-46BD-AADC-F77290014546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04B91694-8DD2-46BD-AADC-F77290014546}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
