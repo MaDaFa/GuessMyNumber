@@ -19,8 +19,8 @@
 				$('#status').removeClass('offline').addClass('pending').text('Connecting...');
 							
 				var name = $('#name').val();
-				var uri = "http://localhost/guessmynumber/signalr";
-				<!-- var uri = "ws://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr"; -->
+				<!-- var uri = "http://localhost/guessmynumber/signalr"; -->
+				var uri = "http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr";
 				
 				guessMyNumberHubProxy = $.connection.guessMyNumberHub;			
 				guessMyNumberHubProxy.client.pushMessage = function (serializedNotification) {
