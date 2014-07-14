@@ -5,29 +5,58 @@
       <meta charset = "UTF-8" />
 	  <link href="css/grid.css" rel="stylesheet" /> 
       <link href="css/styles.css" rel="stylesheet" /> 
-	  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	  <script src="scripts/jquery-1.6.4.min.js"></script>
+	  <script src="scripts/jquery.signalR-2.1.0.min.js"></script>
+      <script src="http://localhost/guessmynumber/signalr/hubs"></script>
 	  <script language="javascript" type="text/javascript">
-		  var websocket;
+		  var guessMyNumberHubProxy;
 		  var loggedUser = { UserName: '', Session: '' };
 		  
 		  $(function() {
 			$('#register').click(function(e) {
 				e.preventDefault();
 
-				var uri = "ws://localhost/guessmynumber/play";
-				<!-- var uri = "ws://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/play"; -->
-
-				websocket = new WebSocket(uri);
-						
-				//attach event handlers
-				websocket.onopen = onOpen;
-				websocket.onclose = onClose;
-				websocket.onmessage = onMessage;
-				websocket.onerror = onError;
-							  
 				$('#status').removeClass('offline').addClass('pending').text('Connecting...');
-			});
+							
+				var name = $('#name').val();
+				var uri = "http://localhost/guessmynumber/signalr";
+				<!-- var uri = "ws://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr"; -->
+				
+				guessMyNumberHubProxy = $.connection.guessMyNumberHub;			
+				guessMyNumberHubProxy.client.pushMessage = function (serializedNotification) {
+					ParseResponse(serializedNotification);
+				};
+				
+				$.connection.hub.url = uri;
+				$.connection.hub.logging = true;
+				$.connection.hub.qs = { 'authenticationType' : '0', 'userName' : name };
+				$.connection.hub.start()
+					.done(function () {		
+						loggedUser.UserName = name;
 
+						$('#status').removeClass('pending').addClass('online').text('Online');
+
+						$('#playerLogged').text(loggedUser.UserName);
+						$('#userConnected').show('fast');
+						$('#usersSection').show('fast');
+						$('#connectUser').hide('fast', function() { $('#newGame').show('fast'); });
+
+						LogMessage('Connected to Game Server');
+					})
+					.fail(function(error){ 
+						alert("An error occured: " + error);
+						LogMessage("An error occured: " + error);
+					});
+				
+				$.connection.hub.disconnected(function () {
+					LogMessage('Connection to Game Server closed.');
+			
+					$('#status').removeClass('pending').removeClass('online').addClass('offline').text('Offline');
+					$('#onlineUsers').text('');
+					$('#registerName, #sendMessage').hide('fast', function() { $('#connectToServer').show('fast'); });
+				});
+			});
+			
 			$('#startGame').click(function(e) {
 			  e.preventDefault();
 			  
@@ -38,7 +67,7 @@
 
 			  var request = { Type: 2, SerializedRequestObject: serializedRequest };
 
-			  websocket.send(JSON.stringify(request));
+			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 
 			  $('#newGame').hide('fast', function() { $('#tryNumber').show('fast'); });
 			});
@@ -52,7 +81,7 @@
 
 			  var request = { Type: 3, SerializedRequestObject: serializedRequest };
 
-			  websocket.send(JSON.stringify(request));
+			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			  
 			  $('#acceptGame').hide('fast', function() { $('#tryNumber').show('fast'); });
 			});
@@ -66,7 +95,7 @@
 
 			  var request = { Type: 4, SerializedRequestObject: serializedRequest };
 
-			  websocket.send(JSON.stringify(request));
+			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			  
 			  $('#acceptGame').hide('fast', function() { $('#newGame').hide('fast'); });
 			});
@@ -80,7 +109,7 @@
 
 			  var request = { Type: 5, SerializedRequestObject: serializedRequest };
 
-			  websocket.send(JSON.stringify(request));
+			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			});
 			
 			$('#disconnectUser').click(function(e) {
@@ -91,7 +120,7 @@
 
 			  var request = { Type: 255, SerializedRequestObject: serializedRequest };
 
-			  websocket.send(JSON.stringify(request));
+			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			  
 			  $('#newGame').hide('fast');
 			  $('#acceptGame').hide('fast');
@@ -100,46 +129,9 @@
 			  $('#connectUser').show('fast');
 			});
 		  });
-		  
-		  function onOpen(evt){
-			var name = $('#name').val();
 
-			loggedUser.UserName = name;
-
-			$('#status').removeClass('pending').addClass('online').text('Online');
-
-			$('#playerLogged').text(loggedUser.UserName);
-			$('#userConnected').show('fast');
-			$('#usersSection').show('fast');
-			$('#connectUser').hide('fast', function() { $('#newGame').show('fast'); });
-
-			LogMessage('Connected to Game Server');
-			
-			var playerConnectRequest = { PlayerName : name, AccessToken : '' };
-			var serializedRequest = JSON.stringify(playerConnectRequest);
-			var request = { Type: 1, SerializedRequestObject: serializedRequest };
-						
-			websocket.send(JSON.stringify(request));
-		  }
-		  
-		  function onClose(evt){
-			LogMessage('Connection to Game Server closed.');
-			
-			$('#status').removeClass('pending').removeClass('online').addClass('offline').text('Offline');
-			$('#onlineUsers').text('');
-			$('#registerName, #sendMessage').hide('fast', function() { $('#connectToServer').show('fast'); });
-		  }
-		  
-		  function onMessage(evt){
-			ParseResponse(event.data);
-		  }
-		  
-		  function onError(evt){
-			LogMessage("Error:" + evt.data);
-		  }
-		  
-		  function ParseResponse(response) {
-			var notification = JSON.parse(response);
+		  function ParseResponse(serializedNotification) {
+			var notification = JSON.parse(serializedNotification);
 			var notificationObject = JSON.parse(notification.SerializedNotificationObject);
 
 			if (notification.Type == 1) { //UserConnected
@@ -220,7 +212,7 @@
 	<body> 
       <div class="container_12"> 
         <header class="grid_12"> 
-          <h1>Guess My Number Test</h1> 
+          <h1>Test</h1> 
           <h2>Status: <span id="status" class="offline">Offline</span></h2>
 		</header> 
       </div> 
