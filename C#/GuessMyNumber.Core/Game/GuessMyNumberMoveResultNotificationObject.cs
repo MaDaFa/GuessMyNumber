@@ -1,8 +1,8 @@
-﻿using Gamify.Sdk.Contracts.Notifications;
+﻿using Gamify.Sdk.Contracts.ServerMessages;
 
 namespace GuessMyNumber.Core.Game
 {
-    public class GuessMyNumberMoveResultNotificationObject : IMoveResultNotificationObject
+    public class GuessMyNumberMoveResultNotificationObject : IMoveResultReceivedServerMessage
     {
         public string Message
         {

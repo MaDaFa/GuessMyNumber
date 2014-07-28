@@ -1,38 +1,52 @@
-﻿using Gamify.Sdk;
-using Gamify.Sdk.Contracts.Notifications;
-using Gamify.Sdk.Contracts.Requests;
-using Gamify.Sdk.Services;
-using Gamify.Sdk.Setup;
+﻿using Gamify.Sdk.Setup;
 using GuessMyNumber.Core.Game.Setup;
+using GuessMyNumber.Core.Interfaces;
 using Microsoft.AspNet.SignalR;
 using System.Linq;
+using ThinkUp.Sdk;
+using ThinkUp.Sdk.Contracts.ClientMessages;
+using ThinkUp.Sdk.Contracts.ServerMessages;
+using ThinkUp.Sdk.Plugins;
+using ThinkUp.Sdk.Setup;
 
 namespace GuessMyNumber.Web
 {
     public class GuessMyNumberManager : IGuessMyNumberManager
     {
-        private readonly IGameInitializer gameInitializer;
+        private readonly ISetupManager setupManager;
         private readonly ISerializer serializer;
         private readonly IUserConnectionMapper userConnectionMapper;
         private readonly IHubContext<IGameHubClient> hubContext;
 
-        private IGameService gameService;
+        private IPlugin gamePlugin;
 
-        public GuessMyNumberManager(IGameInitializer gameInitializer, ISerializer serializer, IUserConnectionMapper userConnectionMapper)
+        public GuessMyNumberManager(ISetupManager setupManager, ISerializer serializer, IUserConnectionMapper userConnectionMapper)
         {
-            this.gameInitializer = gameInitializer;
+            this.setupManager = setupManager;
             this.serializer = serializer;
             this.userConnectionMapper = userConnectionMapper;
             this.hubContext = GlobalHost.ConnectionManager.GetHubContext<GuessMyNumberHub, IGameHubClient>();
 
-            this.InitializeGameService();
+            this.InitializeGamePlugin();
         }
 
         public void Connect(string userName, string connectionId)
         {
             if (!this.userConnectionMapper.GetConnections(userName).Any())
             {
-                this.gameService.Connect(userName);
+                var connectUserClientMessage = new ConnectUserClientMessage
+                {
+                    UserName = userName
+                };
+                var clientContract = new ClientContract
+                {
+                    Sender = userName,
+                    Type = ClientMessageType.ConnectUser,
+                    SerializedClientMessage = this.serializer.Serialize(connectUserClientMessage)
+                };
+                var serializedClientContract = this.serializer.Serialize(clientContract);
+
+                this.gamePlugin.HandleClientMessage(serializedClientContract);
             }
 
             this.userConnectionMapper.AddConnection(userName, connectionId);
@@ -50,9 +64,9 @@ namespace GuessMyNumber.Web
 
         public void SendMessage(string message, string connectionId)
         {
-            var gameRequest = this.serializer.Deserialize<GameRequest>(message);
+            var clientContract = this.serializer.Deserialize<ClientContract>(message);
 
-            if (gameRequest.Type == (int)GameRequestType.PlayerConnect)
+            if (clientContract.Type == ClientMessageType.ConnectUser)
             {
                 var errorMessage = "Player Connect message is not supported. Connection parameters must be set on initial SignalR hub connection";
 
@@ -60,7 +74,7 @@ namespace GuessMyNumber.Web
             }
             else
             {
-                this.gameService.Send(message);
+                this.gamePlugin.HandleClientMessage(message);
             }
         }
 
@@ -70,30 +84,45 @@ namespace GuessMyNumber.Web
 
             if (!this.userConnectionMapper.GetConnections(userName).Any())
             {
-                this.gameService.Disconnect(userName);
+                var disconnectUserClientMessage = new DisconnectUserClientMessage
+                {
+                    UserName = userName
+                };
+                var clientContract = new ClientContract
+                {
+                    Sender = userName,
+                    Type = ClientMessageType.DisconnectUser,
+                    SerializedClientMessage = this.serializer.Serialize(disconnectUserClientMessage)
+                };
+                var serializedClientContract = this.serializer.Serialize(clientContract);
+
+                this.gamePlugin.HandleClientMessage(serializedClientContract);
             }
         }
 
-        private void InitializeGameService()
+        private void InitializeGamePlugin()
         {
             var gameDefinition = new GuessMyNumberDefinition();
+            var gamifyConfigurator = new GamifyConfigurator<INumber, IAttemptResult>(gameDefinition);
 
-            this.gameService = gameInitializer.Initialize(gameDefinition);
+            this.setupManager.AddConfigurator(gamifyConfigurator);
 
-            this.gameService.Notification += (sender, args) =>
+            this.gamePlugin = this.setupManager.GetPlugin();
+
+            this.gamePlugin.ServerMessage += (sender, args) =>
             {
-                this.PushMessage(args.Receiver, args.Notification);
+                this.PushMessage(args.Receiver, args.Contract);
             };
         }
 
-        private void PushMessage(string receiver, GameNotification notification)
+        private void PushMessage(string receiver, ServerContract serverContract)
         {
-            var serializedNotification = this.serializer.Serialize(notification);
+            var serializedServerContract = this.serializer.Serialize(serverContract);
             var connectionIds = this.userConnectionMapper.GetConnections(receiver);
 
             foreach (var connectionId in connectionIds)
             {
-                this.hubContext.Clients.Client(connectionId).PushMessage(serializedNotification);
+                this.hubContext.Clients.Client(connectionId).PushMessage(serializedServerContract);
             }
         }
 
@@ -104,20 +133,20 @@ namespace GuessMyNumber.Web
 
         private void SendError(string connectionId, int errorCode, string errorMessage, params object[] parameters)
         {
-            var errorNotificationObject = new ErrorNotificationObject
+            var errorServerMessage = new ErrorServerMessage
             {
                 ErrorCode = errorCode,
                 Message = string.Format(errorMessage, parameters)
             };
-            var errorNotification = new GameNotification
+            var serverContract = new ServerContract
             {
-                Type = (int)GameNotificationType.Error,
-                SerializedNotificationObject = this.serializer.Serialize(errorNotificationObject)
+                Type = ServerMessageType.Error,
+                SerializedServerMessage = this.serializer.Serialize(errorServerMessage)
 
             };
-            var serializedNotification = this.serializer.Serialize(errorNotification);
+            var serializedServerContract = this.serializer.Serialize(serverContract);
 
-            this.hubContext.Clients.Client(connectionId).PushMessage(serializedNotification);
+            this.hubContext.Clients.Client(connectionId).PushMessage(serializedServerContract);
         }
     }
 }

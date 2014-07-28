@@ -1,4 +1,4 @@
-﻿using Gamify.Sdk.Contracts.Notifications;
+﻿using Gamify.Sdk.Contracts.ServerMessages;
 
 namespace GuessMyNumber.Core.Game
 {

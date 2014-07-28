@@ -7,6 +7,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
 using System.Reflection;
+using ThinkUp.Sdk;
+using ThinkUp.Sdk.Setup;
 
 [assembly: OwinStartup(typeof(GuessMyNumber.Web.GameStartup))]
 namespace GuessMyNumber.Web
@@ -21,7 +23,7 @@ namespace GuessMyNumber.Web
 
                 var containerBuilder = new ContainerBuilder();
 
-                containerBuilder.RegisterType<GameInitializer>().As<IGameInitializer>().SingleInstance();
+                containerBuilder.RegisterType<SetupManager>().As<ISetupManager>().SingleInstance();
                 containerBuilder.RegisterType<JsonSerializer>().As<ISerializer>().SingleInstance();
                 containerBuilder.RegisterType<UserConnectionMapper>().As<IUserConnectionMapper>().SingleInstance();
                 containerBuilder.RegisterType<GuessMyNumberManager>().As<IGuessMyNumberManager>().SingleInstance();
