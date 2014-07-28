@@ -1,17 +1,17 @@
 ﻿using Gamify.Sdk;
-using Gamify.Sdk.Contracts.Requests;
+using Gamify.Sdk.Contracts.ClientMessages;
 using Gamify.Sdk.Setup.Definition;
 
 namespace GuessMyNumber.Core.Game.Setup
 {
     public class GuessMyNumberSessionPlayerSetup : ISessionPlayerSetup
     {
-        public void GetPlayerReady(GameAcceptedRequestObject gameAcceptedRequest, SessionGamePlayer gamePlayer)
+        public void GetPlayerReady(AcceptGameClientMessage gameAcceptedRequest, SessionGamePlayer gamePlayer)
         {
             this.GetPlayerReady(gameAcceptedRequest.AdditionalInformation, gamePlayer);
         }
 
-        public void GetPlayerReady(CreateGameRequestObject createGameRequest, SessionGamePlayer gamePlayer)
+        public void GetPlayerReady(CreateGameClientMessage createGameRequest, SessionGamePlayer gamePlayer)
         {
             this.GetPlayerReady(createGameRequest.AdditionalInformation, gamePlayer);
         }

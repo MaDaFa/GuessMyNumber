@@ -1,6 +1,7 @@
 ﻿using Gamify.Sdk;
 using GuessMyNumber.Core.Interfaces;
 using System;
+using ThinkUp.Sdk.Interfaces;
 
 namespace GuessMyNumber.Core.Game
 {
@@ -8,7 +9,7 @@ namespace GuessMyNumber.Core.Game
     {
         public INumber Number { get; private set; }
 
-        public GuessMyNumberPlayer(IGamePlayer information)
+        public GuessMyNumberPlayer(IUser information)
             : base()
         {
             this.Information = information;
