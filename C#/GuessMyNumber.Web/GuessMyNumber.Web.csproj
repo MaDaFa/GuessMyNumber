@@ -48,9 +48,9 @@
     <Reference Include="Facebook">
       <HintPath>..\packages\Facebook.6.6.0\lib\net45\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="Gamify.Sdk, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Gamify.Sdk, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gamify.Sdk.1.0.2.0\lib\net451\Gamify.Sdk.dll</HintPath>
+      <HintPath>..\packages\Gamify.Sdk.1.0.3.0\lib\net451\Gamify.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -104,9 +104,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="ThinkUp.Sdk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThinkUp.Sdk, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ThinkUp.Sdk.1.0.0.0\lib\net451\ThinkUp.Sdk.dll</HintPath>
+      <HintPath>..\packages\ThinkUp.Sdk.1.0.1.0\lib\net451\ThinkUp.Sdk.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
