@@ -6,7 +6,7 @@ namespace GuessMyNumber.Core.Tests
     [TestClass]
     public class NumberAnalyzerTests
     {
-        [TestMethod]
+        //[TestMethod]
         public void When_AnalyzeNumber_Then_Success()
         {
             var numberComparer = new NumberComparer();
