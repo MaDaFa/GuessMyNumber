@@ -7,7 +7,8 @@
       <link href="css/styles.css" rel="stylesheet" /> 
 	  <script src="scripts/jquery-1.6.4.min.js"></script>
 	  <script src="scripts/jquery.signalR-2.1.0.min.js"></script>
-      <script src="http://localhost/guessmynumber/signalr/hubs"></script>
+	  <script src="http://localhost/guessmynumber/signalr/hubs"></script>
+      <!-- <script src="http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr/hubs"></script> -->
 	  <script language="javascript" type="text/javascript">
 		  var guessMyNumberHubProxy;
 		  var loggedUser = { UserName: '', Session: '' };
@@ -19,8 +20,8 @@
 				$('#status').removeClass('offline').addClass('pending').text('Connecting...');
 							
 				var name = $('#name').val();
-				<!-- var uri = "http://localhost/guessmynumber/signalr"; -->
-				var uri = "http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr";
+				var uri = "http://localhost/guessmynumber/signalr";
+				<!-- var uri = "http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr"; -->
 				
 				guessMyNumberHubProxy = $.connection.guessMyNumberHub;			
 				guessMyNumberHubProxy.client.pushMessage = function (serializedNotification) {
