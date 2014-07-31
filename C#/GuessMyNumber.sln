@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.Core", "Guess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.Core.Tests", "GuessMyNumber.Core.Tests\GuessMyNumber.Core.Tests.csproj", "{C7383340-5AE9-4257-A2EB-87B650D96E42}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{124C1649-F7AE-4C67-9780-FEF533E638B9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyNumber.Web", "GuessMyNumber.Web\GuessMyNumber.Web.csproj", "{04B91694-8DD2-46BD-AADC-F77290014546}"
 EndProject
 Global
