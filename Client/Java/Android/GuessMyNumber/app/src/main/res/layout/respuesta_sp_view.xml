@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/resultHeader"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/textTurno"
+        android:layout_width="fill_parent"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        style="@style/ResultadoSinglePLayer"
+        android:text="@string/turno_inicial" />
+
+    <TextView
+        android:id="@+id/textNumero"
+        android:layout_width="fill_parent"
+        android:layout_weight="14"
+        android:layout_height="wrap_content"
+        style="@style/ResultadoSinglePLayer"
+        android:text="@string/numero" />
+
+    <TextView
+        android:id="@+id/textBien"
+        android:layout_width="fill_parent"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        style="@style/ResultadoSinglePLayer"
+        android:text="@string/bien_inicial" />
+
+    <TextView
+        android:id="@+id/textRegular"
+        android:layout_width="fill_parent"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        style="@style/ResultadoSinglePLayer"
+        android:text="@string/regular_inicial" />
+
+</TableRow>

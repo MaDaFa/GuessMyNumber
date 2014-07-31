@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/duel_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/duel_item_height"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:background="@drawable/chalk_border">
+
+    <ImageView
+        android:id="@+id/foto"
+        style="@style/duel_item_layout.photo_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"/>
+    <TextView
+        android:id="@+id/nombre"
+        style="@style/duel_item_layout.text"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:background="@drawable/abc_ic_clear"/>
+
+</LinearLayout>
