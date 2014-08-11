@@ -29,10 +29,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:48:58</publishTime>
     </File>
     <File Include="bin/GuessMyNumber.Web.dll">
-      <publishTime>07/31/2014 15:48:59</publishTime>
+      <publishTime>08/11/2014 10:35:29</publishTime>
     </File>
     <File Include="bin/GuessMyNumber.Web.pdb">
-      <publishTime>07/31/2014 15:48:59</publishTime>
+      <publishTime>08/11/2014 10:35:29</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.SignalR.Core.dll">
       <publishTime>07/31/2014 15:42:44</publishTime>
@@ -50,7 +50,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:42:44</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.dll">
-      <publishTime>07/10/2014 13:22:56</publishTime>
+      <publishTime>08/11/2014 10:35:15</publishTime>
     </File>
     <File Include="bin/MongoDB.Bson.dll">
       <publishTime>07/03/2014 15:50:14</publishTime>
@@ -62,7 +62,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/29/2014 21:14:00</publishTime>
     </File>
     <File Include="bin/Owin.dll">
-      <publishTime>07/10/2014 13:22:56</publishTime>
+      <publishTime>08/11/2014 10:35:15</publishTime>
     </File>
     <File Include="bin/System.Web.Cors.dll">
       <publishTime>07/31/2014 15:42:44</publishTime>
@@ -74,7 +74,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:42:44</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>07/31/2014 15:45:27</publishTime>
+      <publishTime>08/11/2014 10:35:17</publishTime>
     </File>
     <File Include="Scripts/jquery-1.6.4.js">
       <publishTime>07/31/2014 15:42:58</publishTime>
@@ -95,7 +95,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:42:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/31/2014 15:55:48</publishTime>
+      <publishTime>08/11/2014 10:35:30</publishTime>
     </File>
   </ItemGroup>
 </Project>

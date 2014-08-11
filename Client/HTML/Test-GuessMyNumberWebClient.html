@@ -7,8 +7,8 @@
       <link href="css/styles.css" rel="stylesheet" /> 
 	  <script src="scripts/jquery-1.6.4.min.js"></script>
 	  <script src="scripts/jquery.signalR-2.1.0.min.js"></script>
-	  <script src="http://localhost/guessmynumber/signalr/hubs"></script>
-      <!-- <script src="http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr/hubs"></script> -->
+	  <!-- <script src="http://localhost/guessmynumber/signalr/hubs"></script> -->
+	  <script src="http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr/hubs"></script>
 	  <script language="javascript" type="text/javascript">
 		  var guessMyNumberHubProxy;
 		  var loggedUser = { UserName: '', Session: '' };
@@ -20,10 +20,10 @@
 				$('#status').removeClass('offline').addClass('pending').text('Connecting...');
 							
 				var name = $('#name').val();
-				var uri = "http://localhost/guessmynumber/signalr";
-				<!-- var uri = "http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr"; -->
-				
-				guessMyNumberHubProxy = $.connection.guessMyNumberHub;			
+				<!-- var uri = "http://localhost/guessmynumber/signalr"; -->
+				var uri = "http://ec2-54-207-14-192.sa-east-1.compute.amazonaws.com/guessmynumber/signalr";
+				 
+				guessMyNumberHubProxy = $.connection.thinkUpHub;			
 				guessMyNumberHubProxy.client.pushMessage = function (serializedNotification) {
 					ParseResponse(serializedNotification);
 				};
@@ -63,10 +63,10 @@
 			  
 			  var invitedPlayerName = $('#versusName').val();
 			  var playerNumber = $('#playerNumber').val();
-			  var createGameRequest = { PlayerName : loggedUser.UserName, InvitedPlayerName : invitedPlayerName, AdditionalInformation : playerNumber };
+			  var createGameRequest = { UserName : loggedUser.UserName, InvitedUserName : invitedPlayerName, AdditionalInformation : playerNumber };
 			  var serializedRequest = JSON.stringify(createGameRequest);
 
-			  var request = { Type: 2, SerializedRequestObject: serializedRequest };
+			  var request = { Type: 300, SerializedClientMessage: serializedRequest };
 
 			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 
@@ -77,10 +77,10 @@
 			  e.preventDefault();
 			  
 			  var playerNumber = $('#player2Number').val();
-			  var gameAcceptedRequest = { SessionName : loggedUser.Session, PlayerName : loggedUser.UserName, AdditionalInformation : playerNumber };
+			  var gameAcceptedRequest = { SessionName : loggedUser.Session, UserName : loggedUser.UserName, AdditionalInformation : playerNumber };
 			  var serializedRequest = JSON.stringify(gameAcceptedRequest);
 
-			  var request = { Type: 3, SerializedRequestObject: serializedRequest };
+			  var request = { Type: 301, SerializedClientMessage: serializedRequest };
 
 			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			  
@@ -91,10 +91,10 @@
 			  e.preventDefault();
 			  
 			  var playerNumber = $('#player2Number').val();
-			  var gameRejectedRequest = { SessionName : loggedUser.Session, PlayerName : loggedUser.UserName };
+			  var gameRejectedRequest = { SessionName : loggedUser.Session, UserName : loggedUser.UserName };
 			  var serializedRequest = JSON.stringify(gameRejectedRequest);
 
-			  var request = { Type: 4, SerializedRequestObject: serializedRequest };
+			  var request = { Type: 302, SerializedClientMessage: serializedRequest };
 
 			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			  
@@ -105,10 +105,10 @@
 			  e.preventDefault();
 			  
 			  var number = $('#number').val();
-			  var gameMoveRequest = { SessionName: loggedUser.Session, PlayerName : loggedUser.UserName, MoveInformation: number };
+			  var gameMoveRequest = { SessionName: loggedUser.Session, UserName : loggedUser.UserName, MoveInformation: number };
 			  var serializedRequest = JSON.stringify(gameMoveRequest);
 
-			  var request = { Type: 5, SerializedRequestObject: serializedRequest };
+			  var request = { Type: 303, SerializedClientMessage: serializedRequest };
 
 			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			});
@@ -116,10 +116,10 @@
 			$('#disconnectUser').click(function(e) {
 			  e.preventDefault();
 			  
-			  var userDisconnectRequest = { PlayerName : loggedUser.UserName };
+			  var userDisconnectRequest = { UserName : loggedUser.UserName };
 			  var serializedRequest = JSON.stringify(userDisconnectRequest);
 
-			  var request = { Type: 255, SerializedRequestObject: serializedRequest };
+			  var request = { Type: 102, SerializedClientMessage: serializedRequest };
 
 			  guessMyNumberHubProxy.server.sendMessage(JSON.stringify(request));
 			  
@@ -133,9 +133,9 @@
 
 		  function ParseResponse(serializedNotification) {
 			var notification = JSON.parse(serializedNotification);
-			var notificationObject = JSON.parse(notification.SerializedNotificationObject);
+			var notificationObject = JSON.parse(notification.SerializedServerMessage);
 
-			if (notification.Type == 1) { //UserConnected
+			if (notification.Type == 200) { //UserConnected
 				var message = notificationObject.Message;
 
 				LogMessage(message);
@@ -143,13 +143,13 @@
 				var connectedUsers = $('#onlineUsers').text();
 
 				if(connectedUsers == '') {
-					connectedUsers = notificationObject.PlayerName;
+					connectedUsers = notificationObject.UserName;
 				} else {
-					connectedUsers = connectedUsers + ", " + notificationObject.PlayerName;
+					connectedUsers = connectedUsers + ", " + notificationObject.UserName;
 				}
 
 				$('#onlineUsers').text(connectedUsers);
-			} else if (notification.Type == 2) { // GameInvite
+			} else if (notification.Type == 400) { // GameInvite
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
@@ -159,45 +159,45 @@
 			  $('#player1Name').val(notificationObject.Player1Name);
 			  
 			  loggedUser.Session = notificationObject.SessionName;
-			}else if (notification.Type == 3) { //GameCreated
+			}else if (notification.Type == 401) { //GameCreated
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
 			  
 			  loggedUser.Session = notificationObject.SessionName;
-			}else if (notification.Type == 4) { //GameRejected
+			}else if (notification.Type == 402) { //GameRejected
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-			}else if (notification.Type == 5) { //GameMove
+			}else if (notification.Type == 403) { //GameMove
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-			}else if (notification.Type == 6) { //GameMoveResult
+			}else if (notification.Type == 404) { //GameMoveResult
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-			}else if (notification.Type == 7) { //SessionAbandoned
+			}else if (notification.Type == 409) { //SessionAbandoned
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-			}else if (notification.Type == 11) { //GameFinished
+			}else if (notification.Type == 410) { //GameFinished
 			  var message = notificationObject.Message;
 			  
 			  alert(message);
-			}else if (notification.Type == 12) { //Message
+			}else if (notification.Type == 205) { //Message
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-			}else if (notification.Type == 13) { //TypingMessage
+			}else if (notification.Type == 206) { //TypingMessage
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-			}else if (notification.Type == 14) { //PlayerDisconnected
+			}else if (notification.Type == 202) { //PlayerDisconnected
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
-		    }else if (notification.Type == 255) { // Error
+		    }else if (notification.Type == 208) { // Error
 			  var message = notificationObject.Message;
 			  
 			  LogMessage(message);
