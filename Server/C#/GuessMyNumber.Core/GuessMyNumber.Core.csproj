@@ -36,7 +36,7 @@
     </Reference>
     <Reference Include="Gamify.Sdk, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gamify.Sdk.1.0.4.0\lib\net451\Gamify.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\Gamify\Server\C#\Lib\Gamify.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
@@ -55,9 +55,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThinkUp.Sdk, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ThinkUp.Sdk.1.0.2.0\lib\net451\ThinkUp.Sdk.dll</HintPath>
+    <Reference Include="ThinkUp.Sdk">
+      <HintPath>..\..\..\..\Gamify\Server\C#\Lib\ThinkUp.Sdk.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

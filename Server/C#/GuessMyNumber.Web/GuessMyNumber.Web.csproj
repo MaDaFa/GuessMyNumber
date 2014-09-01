@@ -50,7 +50,7 @@
     </Reference>
     <Reference Include="Gamify.Sdk, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gamify.Sdk.1.0.4.0\lib\net451\Gamify.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\Gamify\Server\C#\Lib\Gamify.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -105,13 +105,12 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="ThinkUp.Sdk, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ThinkUp.Sdk.1.0.2.0\lib\net451\ThinkUp.Sdk.dll</HintPath>
+    <Reference Include="ThinkUp.Sdk">
+      <HintPath>..\..\..\..\Gamify\Server\C#\Lib\ThinkUp.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="ThinkUp.SignalR, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ThinkUp.SignalR.1.0.1.0\lib\net451\ThinkUp.SignalR.dll</HintPath>
+      <HintPath>..\..\..\..\ThinkUp\Server\C#\Lib\ThinkUp.SignalR.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
