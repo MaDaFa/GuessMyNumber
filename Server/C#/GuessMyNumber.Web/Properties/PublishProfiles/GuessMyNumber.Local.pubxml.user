@@ -11,7 +11,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Autofac.dll">
-      <publishTime>07/28/2014 01:03:48</publishTime>
+      <publishTime>08/12/2014 12:30:04</publishTime>
     </File>
     <File Include="bin/Autofac.Integration.SignalR.dll">
       <publishTime>07/31/2014 15:42:44</publishTime>
@@ -20,19 +20,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:42:44</publishTime>
     </File>
     <File Include="bin/Gamify.Sdk.dll">
-      <publishTime>07/30/2014 17:44:00</publishTime>
+      <publishTime>08/12/2014 18:35:15</publishTime>
+    </File>
+    <File Include="bin/Gamify.Sdk.pdb">
+      <publishTime>08/12/2014 18:35:15</publishTime>
     </File>
     <File Include="bin/GuessMyNumber.Core.dll">
-      <publishTime>07/31/2014 15:48:58</publishTime>
+      <publishTime>08/12/2014 18:40:36</publishTime>
     </File>
     <File Include="bin/GuessMyNumber.Core.pdb">
-      <publishTime>07/31/2014 15:48:58</publishTime>
+      <publishTime>08/12/2014 18:40:36</publishTime>
     </File>
     <File Include="bin/GuessMyNumber.Web.dll">
-      <publishTime>08/11/2014 10:35:29</publishTime>
+      <publishTime>08/12/2014 18:40:37</publishTime>
     </File>
     <File Include="bin/GuessMyNumber.Web.pdb">
-      <publishTime>08/11/2014 10:35:29</publishTime>
+      <publishTime>08/12/2014 18:40:37</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.SignalR.Core.dll">
       <publishTime>07/31/2014 15:42:44</publishTime>
@@ -59,7 +62,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/03/2014 15:50:14</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>04/29/2014 21:14:00</publishTime>
+      <publishTime>08/12/2014 12:30:04</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>08/11/2014 10:35:15</publishTime>
@@ -68,13 +71,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:42:44</publishTime>
     </File>
     <File Include="bin/ThinkUp.Sdk.dll">
-      <publishTime>07/30/2014 17:43:59</publishTime>
+      <publishTime>08/12/2014 18:32:22</publishTime>
+    </File>
+    <File Include="bin/ThinkUp.Sdk.pdb">
+      <publishTime>08/12/2014 18:32:22</publishTime>
     </File>
     <File Include="bin/ThinkUp.SignalR.dll">
-      <publishTime>07/31/2014 15:42:44</publishTime>
+      <publishTime>08/12/2014 18:33:11</publishTime>
+    </File>
+    <File Include="bin/ThinkUp.SignalR.pdb">
+      <publishTime>08/12/2014 18:33:11</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/11/2014 10:35:17</publishTime>
+      <publishTime>08/12/2014 18:38:23</publishTime>
     </File>
     <File Include="Scripts/jquery-1.6.4.js">
       <publishTime>07/31/2014 15:42:58</publishTime>
@@ -95,7 +104,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/31/2014 15:42:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/11/2014 10:35:30</publishTime>
+      <publishTime>08/12/2014 18:40:44</publishTime>
     </File>
   </ItemGroup>
 </Project>
